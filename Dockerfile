@@ -16,14 +16,15 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 # 4. Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 5. Pindahkan seluruh kode proyek Anda ke dalam server
+# 5. Pindahkan seluruh kode proyek
 WORKDIR /var/www/html
 COPY . .
 
-# 6. Install dependensi & Build frontend
-RUN composer install --no-dev --optimize-autoloader
+# 6. Install dependensi (Ditambahkan Izin Superuser)
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer install --optimize-autoloader --no-interaction
 RUN npm install
 RUN npm run build
 
-# 7. Berikan izin akses folder agar aplikasi tidak error
+# 7. Berikan izin akses folder agar aplikasi bisa menulis data
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
