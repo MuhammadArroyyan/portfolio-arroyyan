@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: portfolio-arroyyan
+    env: php
+    plan: free
+    buildCommand: composer install --no-dev && npm install && npm run build
+    startCommand: vendor/bin/heroku-php-apache2 public/
