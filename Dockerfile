@@ -1,8 +1,8 @@
 FROM php:8.2-apache
 
 # 1. Install ekstensi sistem & driver PostgreSQL
-RUN apt-get update && apt-get install -y libpq-dev zip unzip git curl
-RUN docker-php-ext-install pdo pdo_pgsql
+RUN apt-get update && apt-get install -y libpq-dev libzip-dev libicu-dev zip unzip git curl
+RUN docker-php-ext-install pdo pdo_pgsql zip intl
 
 # 2. Install Node.js (Untuk memproses TailwindCSS)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
